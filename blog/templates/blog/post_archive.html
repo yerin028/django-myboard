@@ -1,0 +1,26 @@
+<head>
+    <meta charset="UTF-8">
+    <title>CNT Blog</title>
+</head>
+<body>
+    <p>Post Archives until {% now "N d, Y" %}</p>
+
+    <ul>
+        {% for date in date_list %}
+        <li>
+            <a href="{% url 'blog:post_year_archive' date|date:'Y' %}">{{ date|date:'Y' }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div></div>
+    <div>
+        <ul>
+            {% for post in object_list %}
+            <li>
+                {{ post.mod_date|date:"Y-m-d" }}&nbsp;
+                <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>

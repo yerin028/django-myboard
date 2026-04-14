@@ -1,0 +1,26 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p>Post Archives for {{ year|date:"Y" }}</p>
+
+    <ul>
+        {% for date in date_list %}
+        <li>
+            <a href="{% url 'blog:post_month_archive' year|date:'Y' date|date:'m' %}">{{ date|date:'F' }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div></div>
+    <div>
+        <ul>
+            {% for post in object_list %}
+            <li>
+                {{ post.mod_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
+                <a href="{{ post.get_absolute_url}}"><strong>{{ post.title }}</strong></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>

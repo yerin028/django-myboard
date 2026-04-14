@@ -1,0 +1,26 @@
+<head>
+    <meta charset="UTF-8">
+    <title>CNT Blog - {{ object.title }}</title>
+</head>
+<body>
+    <p><strong>{{ object.title }}</strong></p>
+
+    <p>
+        {% if object.get_previous %}
+        <a href="{{ object.get_previous.get_absolute_url }}"이전 글>&larr; {{ object.get_previous }}</a>
+        {% endif %}
+
+        {% if object.get_next %}
+        | <a href="{{ object.get_next.get_absolute_url }}" title="다음 글">{{ object.get_next }} &rarr;</a>
+        {% endif %}
+    </p>
+    <P>{{ object.mod_date|date:"j F Y" }}</P>
+    <br>
+    <br>
+    <div>
+        {{ object.content|linebreaks }}
+    </div>
+    <div>
+        <a href="{% url 'blog:post_list' %}">글 목록</a>
+    </div>
+</body>
