@@ -6,7 +6,7 @@ from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(verbose_name="TITLE", max_length=100)
-    cotent = models.TextField("CONTENT", default="")
+    content = models.TextField("CONTENT", default="")
     pub_date = models.DateTimeField("PUBLISHED DATE", default=timezone.now)
     mod_date = models.DateTimeField("MODIFIED DATE", auto_now=True)
 

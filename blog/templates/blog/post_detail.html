@@ -23,4 +23,68 @@
     <div>
         <a href="{% url 'blog:post_list' %}">글 목록</a>
     </div>
+
+    <hr>
+    <!-- ai 채팅 섹션 추가 -->
+     <div id="ai-section" style="background-color: burlywood; padding: 20px; border-radius: 10px; margin-top: 30px;">
+        <h3>ai 게시판 도우미</h3>
+        <p style="font-size: 0.9em; color:black">이 글의 내용에 대해 궁금한 점을 물어보세요!</p>
+
+        <!--답변이 나타날 공간-->
+        <div id="ai-answer-box" style="display: none; background: white; border: 1px solid #ddd; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+            <strong>AI 답변:</strong>
+            <p id="ai-response-text" style="margin-top: 10px; line-height: 1.6;"></p>
+        </div>
+
+        <!--입력창-->
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="ai-question" placeholder="질문을 입력하세요.." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <button onclick="askAI()" id="ai-btn" style="padding: 10px 20px; background-color: darkcyan; color: white; border: none; border-radius: 5px; cursor: pointer;">질문하기</button>
+        </div>
+     </div>
+
+     <script>
+        async function askAI() {
+            const questionField = document.getElementById('ai-question');
+            const question = questionField.value;
+            const responseBox = document.getElementById('ai-answer-box');
+            const responseText = document.getElementById('ai-response-text');
+            const btn = document.getElementById('ai-btn');
+
+            if (!question) {
+                alert("질문을 입력해주세요!");
+                return;
+            }
+
+            // 로딩 상태 표시
+            btn.innerText = "생각 중..";
+            btn.disabled = true;
+
+            try {
+                // 이전에 설정한 views.post_ai_chat 경로로 post 요청
+                const response = await fetch("./ai/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: 'question=${encodedURIComponent(question)}'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    responseBox.style.display = "block";
+                    responseText.innerText = data.answer;
+                } else {
+                    alert("에러 발생: " + data.error);
+                } 
+            } catch (error) {
+                    alert("서버와 통신 중 오류가 발생했습니다.");
+                } finally{
+                    btn.innerText = "질문하기";
+                    btn.disabled = false;
+                    questionField.value = ""; // 입력창 비우기
+                }
+        }
+     </script>
 </body>

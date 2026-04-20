@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.PostLV.as_view(), name="index"),
     path('post/', views.PostLV.as_view(), name="post_list"),
     path('post/<int:pk>/', views.PostDV.as_view(), name="post_detail"),
+    path('post/<int:pk>/ai/', views.post_ai_chat),
     path('archive/', views.PostAV.as_view(), name="post_archive"),
     path('archive/<int:year>/', views.PostYAV.as_view(), name="post_year_archive"),
     path('archive/<int:year>/<str:month>/', views.PostMAV.as_view(), name="post_month_archive"),
