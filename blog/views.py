@@ -57,7 +57,7 @@ from blog.ai import ask_ai
 class PostLV(ListView):
     model = Post
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 5
 
 class PostDV(DetailView):
     model = Post

@@ -16,7 +16,7 @@ def ask_ai(prompt):
             messages=[
                 {
                     "role": "system",
-                    "content": "너는 게시판 도우미야. 짧고 핵심만 말해.",
+                    "content": "너는 게시판 도우미야. 내용 요약을 해줘.",
                 },
                 {
                     "role": "user",

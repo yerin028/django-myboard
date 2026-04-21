@@ -1,29 +1,77 @@
 <head>
     <meta charset="UTF-8">
     <title>CNT Blog</title>
+    <!-- 구글 폰트 추가 (세련된 느낌) -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px; /* 화면 폭 제한으로 가독성 향상 */
+            margin: 0 auto;   /* 화면 중앙 배치 */
+            padding: 20px;
+            background-color: #fcfcfc;
+        }
+        /* 포스트 리스트 스타일 */
+        .post-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        .post-title {
+            text-decoration: none;
+            color: #2c3e50;
+            transition: color 0.2s;
+        }
+        .post-title:hover {
+            color: #03c75a; /* 마우스 올리면 네이버 초록색으로 */
+        }
+        .post-date {
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <h2>Post List</h2>
-    <span>
-        <a href="{% url 'blog:post_archive' %}">아카이브</a>
-    </span>
+    <!-- 상단 제목 섹션 -->
+    <div style="background-color: #333; padding: 40px 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="margin: 0; color: white; font-size: 35px; letter-spacing: 2px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, monospace;">Post List</h2>
+    </div>
 
-    <p>
-        {% for post in posts %}
-        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-        {{ post.mod_date|date:"N d, Y"}}
-        {% endfor %}
-    </p>
-    <br>
+    <!-- 아카이브 버튼 -->
+    <div style="text-align: center; margin-bottom: 50px;">
+        <a href="{% url 'blog:post_archive' %}"
+            style="display: inline-block; background-color: #444; color: white;
+            padding: 12px 40px; text-decoration: none; font-weight: bold; font-size: 16px;
+            border-radius: 4px; box-shadow: 0 4px #222; transition: all 0.1s;"
+            onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='0 2px #222';"
+            onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px #222';">
+            아카이브 보러가기
+        </a>
+    </div>
+
+    <!-- 글 목록 섹션 -->
     <div>
+        {% for post in posts %}
+        <div class="post-item">
+            <h3 style="margin: 0 0 10px 0;">
+                <a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a>
+            </h3>
+            <span class="post-date">📅 {{ post.mod_date|date:"Y. m. d" }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 페이지네이션 스타일 -->
+    <div style="text-align: center; margin-top: 50px; padding: 20px; color: #666; font-size: 14px;">
         {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">이전 페이지</a>
+        <a href="?page={{ page_obj.previous_page_number }}" style="text-decoration: none; color: #444; margin-right: 10px;">&larr; 이전</a>
         {% endif %}
 
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        <span style="font-weight: bold; color: #333;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">다음 페이지</a>
+        <a href="?page={{ page_obj.next_page_number }}" style="text-decoration: none; color: #444; margin-left: 10px;">다음 &rarr;</a>
         {% endif %}
     </div>
 </body>
